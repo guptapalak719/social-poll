@@ -1,84 +1,167 @@
-# Social Poll - Community Polling Web Application
+# POLL SOCIAL — Full Stack Developer Assessment
 
 ## Project Overview
 
-Social Poll is a web application prototype where users can create polls, vote on available options, view voting results, discuss poll topics through comments, and register or log in using an email and password.
+POLL SOCIAL is a mini social polling platform prototype developed as part of the Full Stack Developer technical assessment.
 
-This project was developed as part of internship assessment using Node.js and Express.js, with a lightweight browser-based interface.
-
-## Features Implemented
-
-- **Poll Creation:** Create a poll with a question and 2–6 options.
-- **Voting System:** Vote on poll options and change an existing vote.
-- **Live Results Display:** View vote counts and percentage bars.
-- **Comments:** Post and view comments under individual polls.
-- **User Registration:** Register with a name, email, and password.
-- **User Login:** Authenticate registered users using email and password.
-- **Password Hashing:** Uses `bcryptjs` to hash passwords.
-- **JWT Generation:** Generates JSON Web Tokens during registration and login.
-- **REST API:** Provides endpoints for polls, voting, comments, registration, and login.
-- **Responsive Layout:** Includes a browser-based interface designed to adapt to different screen sizes.
+The prototype demonstrates the core flow of a polling application:
+- User registration and login
+- Poll creation
+- Voting with one choice per voter and vote changes
+- Poll result display
+- Comments on polls
+- Basic input validation
+- Password hashing with bcryptjs
+- JWT-based authentication in the demo application
 
 ## Technology Stack
 
-- **Frontend:** HTML, CSS, JavaScript
-- **Backend:** Node.js, Express.js
-- **Authentication Libraries:** bcryptjs, jsonwebtoken
-- **Data Storage:** Temporary in-memory JavaScript arrays and objects
-- **Database:** MongoDB Atlas connection is planned but is not currently integrated into the demo server.
+- Backend: Node.js + Express.js
+- Database: MongoDB
+- Authentication: JWT + bcryptjs
+- Frontend: HTML, CSS and JavaScript prototype UI
+- Environment configuration: dotenv
+- Version control: Git + GitHub
 
-## Prerequisites
+## Current Implementation
 
-- Node.js and npm installed
-- Visual Studio Code or another code editor
+The project contains two stages of implementation:
 
-## How to Run
+### 1. Working Demo Prototype
 
-1. Open the project folder in VS Code.
-2. Open the integrated terminal.
-3. Install the required packages if they are not already installed:
+`demo-server.js` contains the functional polling prototype with:
+- Registration and login
+- JWT generation
+- Password hashing
+- Poll creation
+- Voting
+- Vote changes
+- Poll results
+- Add/view comments
+- Basic validation and output escaping
 
-   `npm.cmd install express bcryptjs jsonwebtoken`
+The demo currently stores its runtime data in memory.
 
-4. Start the demo server:
+### 2. MongoDB Backend Setup
 
-   `node demo-server.js`
+`server.js` and `config/db.js` establish the MongoDB-backed Express application.
 
-5. Open the following address in your browser:
+MongoDB connectivity was tested successfully against the `internshipDB` database. The current MongoDB-backed API includes basic user retrieval and user creation through `/api/users`.
 
-   `http://localhost:3000`
+The complete migration of every demo feature from in-memory storage to MongoDB was not completed within the assessment work period.
 
-## API Endpoints
+## API / Feature Status
 
-| Method | Endpoint | Purpose |
-|---|---|---|
-| GET | `/api/polls` | Retrieve polls and results |
-| POST | `/api/polls` | Create a poll |
-| POST | `/api/polls/:id/vote` | Submit or change a vote |
-| GET | `/api/polls/:id/comments` | Retrieve poll comments |
-| POST | `/api/polls/:id/comments` | Add a comment |
-| POST | `/api/auth/register` | Register a user |
-| POST | `/api/auth/login` | Log in a user |
+### Implemented in the prototype
+- User registration
+- User login
+- JWT token generation
+- Password hashing
+- Create poll
+- View polls
+- Vote on a poll
+- Change vote
+- View vote results
+- Add comments
+- View comments
+- Basic validation
 
-## Current Limitations
+### Not completed
+- Full MongoDB persistence for polls, votes and comments
+- Edit own poll
+- Delete own poll
+- Poll expiry enforcement
+- Pagination
+- Keyword search
+- Sorting by Latest / Most Voted
+- Delete own comments
+- User profile statistics
+- Full production-grade authentication/authorization middleware across every protected route
+- Deployment / live demo
 
-- Polls, votes, comments, and registered users are stored in memory and reset when the server restarts.
-- MongoDB persistence has not yet been connected to `demo-server.js`.
-- JWTs are generated, but protected-route verification has not been implemented.
-- The current browser-based login state is a demo convenience, not a secure authenticated session.
-- Voting identity is based on a browser-generated identifier rather than a verified account.
-- Production deployment would require additional security controls, persistent storage, validation, and testing.
+## Database Design
 
-## Future Improvements
+A proposed relational-style logical schema is provided in `poll-social-er-diagram.png` for the assessment submission.
 
-- Integrate MongoDB Atlas for persistent data storage.
-- Protect private endpoints using JWT verification middleware.
-- Associate votes and comments with authenticated user accounts.
-- Add poll expiry, profiles, and improved discussion features.
-- Add automated tests and production deployment.
+Main entities:
+- Users
+- Polls
+- Votes
+- Comments
 
-## Project Status
+Key relationships:
+- One user can create many polls.
+- One user can cast many votes.
+- One poll can receive many votes.
+- One user can write many comments.
+- One poll can contain many comments.
+- A vote is logically unique for each user-poll combination.
 
-**Working prototype:** Core poll creation, voting, results, comments, registration, and login flows are implemented in the demo server.
+## Environment Variables
 
-The project is a prototype and requires persistent storage and additional security work before production use.
+Create a `.env` file locally:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+Do not commit `.env` or credentials to GitHub.
+
+## Run the Project
+
+Install dependencies:
+
+```powershell
+npm.cmd install
+```
+
+Start the MongoDB-backed Express server:
+
+```powershell
+npm.cmd start
+```
+
+The server runs on:
+
+```text
+http://localhost:3000
+```
+
+For the original functional demo prototype:
+
+```powershell
+node demo-server.js
+```
+
+Note: both applications use port 3000 by default, so they should not be started simultaneously unless one is configured to use another port.
+
+## Database Connection Test
+
+The MongoDB connection can be verified with:
+
+```powershell
+node test-db.js
+```
+
+Successful verification prints:
+
+```text
+MongoDB connected successfully!
+Database name: internshipDB
+Database connection test passed!
+```
+
+## Assessment Submission
+
+GitHub Repository:
+
+https://github.com/guptapalak719/social-poll
+
+Live Demo:
+
+Not deployed. The assessment instructions mark deployment as optional/preferred.
+
+## Assessment Scope
+
+The project was developed with a focus on building a functional prototype within the assessment time limit and prioritizing the core polling flow over additional polish and incomplete features.
